@@ -1,2 +1,2 @@
-# Android-Music-Player
+# Android Music Player
 音楽を再生するアンドロイドアプリ
