@@ -11,28 +11,28 @@ class AudioPlayer(context: Context) {
     private var mediaPlayer: MediaPlayer? = null
 
     init {
-        log.info("AudioPlayer")
+        log.fine("AudioPlayer")
         target = context
     }
 
     fun create() {
-        log.info("AudioPlayer create")
+        log.fine("AudioPlayer create")
         mediaPlayer = MediaPlayer.create(target, Uri.parse(""))
         start()
     }
     fun destroy() {
-        log.info("AudioPlayer destroy")
+        log.fine("AudioPlayer destroy")
         stop()
         mediaPlayer = null
     }
 
     fun start() {
-        log.info("AudioPlayer start")
+        log.fine("AudioPlayer start")
         mediaPlayer?.start()
     }
 
     fun stop() {
-        log.info("AudioPlayer stop")
+        log.fine("AudioPlayer stop")
         mediaPlayer?.release()
     }
 }
