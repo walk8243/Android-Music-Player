@@ -2,7 +2,6 @@ package xyz.walk8243.androidmusicplayer.feature
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.net.Uri
 import java.util.logging.Logger
 
 class AudioPlayer(context: Context) {
@@ -15,24 +14,33 @@ class AudioPlayer(context: Context) {
         target = context
     }
 
-    fun create() {
+    fun create(filepath: String) {
         log.fine("AudioPlayer create")
-        mediaPlayer = MediaPlayer.create(target, Uri.parse(""))
+        if(mediaPlayer != null) {
+            destroy()
+        }
+        mediaPlayer = MediaPlayer()
+        mediaPlayer?.setDataSource(filepath)
+        mediaPlayer?.prepare()
         start()
     }
     fun destroy() {
         log.fine("AudioPlayer destroy")
-        stop()
+        mediaPlayer?.release()
         mediaPlayer = null
     }
 
     fun start() {
         log.fine("AudioPlayer start")
+        if(mediaPlayer?.isPlaying!!) {
+            log.info("isPlaying")
+            return
+        }
         mediaPlayer?.start()
     }
 
     fun stop() {
         log.fine("AudioPlayer stop")
-        mediaPlayer?.release()
+        mediaPlayer?.stop()
     }
 }

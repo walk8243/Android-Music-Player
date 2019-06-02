@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val PERMISSION_REQUEST_CODE = 8243
+        private val musicExtensions = arrayOf("mp3")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,10 +56,16 @@ class MainActivity : AppCompatActivity() {
             "ファイルがありません"
         } else {
             for (file in files) {
-                log.info(file.name + ": " + file.absoluteFile)
-                val musicItem = MusicItem(this)
-                musicItem.text = file.name
-                listBox.addView(musicItem)
+                log.info("${file.name}: ${file.absolutePath}")
+                if(musicExtensions.contains(file.extension)) {
+                    val musicItem = MusicItem(this)
+                    musicItem.text = file.nameWithoutExtension
+                    musicItem.filepath = file.absolutePath
+                    musicItem.setOnClickListener {
+                        audioPlayer?.create(musicItem.filepath)
+                    }
+                    listBox.addView(musicItem)
+                }
             }
             ""
         }
