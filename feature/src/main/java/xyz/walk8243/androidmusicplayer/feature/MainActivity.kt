@@ -1,6 +1,7 @@
 package xyz.walk8243.androidmusicplayer.feature
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
@@ -55,11 +56,23 @@ class MainActivity : AppCompatActivity() {
         } else {
             for (file in files) {
                 log.info(file.name + ": " + file.absoluteFile)
-                val itemView = TextView(this)
-                itemView.text = file.name
-                listBox.addView(itemView)
+                val musicItem = MusicItem(this)
+                musicItem.text = file.name
+                listBox.addView(musicItem)
             }
             ""
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun testingMusicItem() {
+        findViewById<TextView>(R.id.textView).text = ""
+        val listBox = findViewById<LinearLayout>(R.id.list)
+        for (i in 0..4) {
+            val musicItem = MusicItem(this)
+            musicItem.text = "Index is $i"
+            musicItem.filepath = "Filepath is $i"
+            listBox.addView(musicItem)
         }
     }
 
@@ -72,6 +85,7 @@ class MainActivity : AppCompatActivity() {
             PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     log.info("Permission has been denied by user")
+                    testingMusicItem()
                 } else {
                     log.info("Permission has been granted by user")
                     throughPermissions()
