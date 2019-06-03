@@ -8,6 +8,8 @@ import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import java.util.logging.Logger
@@ -84,7 +86,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeAudioPlayer() {
-        audioPlayer = AudioPlayer(this)
+        val audioButton: Button = findViewById(R.id.audio_button)
+        audioPlayer = AudioPlayer(this, audioButton)
+        audioButton.setOnClickListener {
+            if (audioButton.isEnabled) {
+                if (audioButton.isSelected) {
+                    audioPlayer?.pause()
+                } else {
+                    audioPlayer?.resume()
+                }
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
