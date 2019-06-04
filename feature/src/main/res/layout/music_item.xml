@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xyz.walk8243.androidmusicplayer.feature.MusicItem
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
-</xyz.walk8243.androidmusicplayer.feature.MusicItem>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+    <TextView
+            android:id="@+id/music_title"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:paddingBottom="@dimen/music_item_padding" android:paddingTop="@dimen/music_item_padding"
+            android:textSize="18sp"/>
+
+</android.support.constraint.ConstraintLayout>
