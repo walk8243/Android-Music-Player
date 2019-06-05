@@ -65,20 +65,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeUI() {
         log.fine("initializeUI")
-        val files = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).listFiles()
-        if (files == null) {
-            val mTextView = findViewById<TextView>(R.id.textView)
-            mTextView.text = "ファイルがありません"
-            mTextView.visibility = View.VISIBLE
-        } else {
+        val files = MusicFiles(null).getFilesRecursively(null)
+        val dirPathStrLength = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).absolutePath.length
+        log.info("Length of ${Environment.DIRECTORY_MUSIC} is $dirPathStrLength")
+        if (files.size > 0) {
             for (file in files) {
                 log.info("${file.name}: ${file.absolutePath}")
-                if(musicExtensions.contains(file.extension)) {
-                    val fileInfo = hashMapOf("name" to file.name, "dir" to file.parent, "path" to file.absolutePath)
+                if (musicExtensions.contains(file.extension)) {
+                    val fileInfo = hashMapOf("name" to file.nameWithoutExtension, "dir" to file.parent.substring(dirPathStrLength), "path" to file.absolutePath)
                     musicItemData.add(fileInfo)
                     viewAdapter.notifyItemChanged(musicItemData.lastIndex)
                 }
             }
+        } else {
+            val mTextView = findViewById<TextView>(R.id.textView)
+            mTextView.text = "ファイルがありません"
+            mTextView.visibility = View.VISIBLE
         }
     }
 

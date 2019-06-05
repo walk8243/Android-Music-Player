@@ -2,11 +2,17 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/music_item"
+        android:orientation="vertical"
         android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:background="@drawable/music_item_state" android:paddingStart="5dp" android:paddingEnd="5dp">
+        android:background="@drawable/music_item_state"
+        android:paddingStart="5dp" android:paddingEnd="5dp"
+        android:paddingTop="@dimen/music_item_padding" android:paddingBottom="@dimen/music_item_padding">
     <TextView
             android:id="@+id/music_title"
             android:layout_width="match_parent" android:layout_height="match_parent"
-            android:paddingBottom="@dimen/music_item_padding" android:paddingTop="@dimen/music_item_padding"
             android:textSize="18sp"/>
+    <TextView
+            android:id="@+id/music_dir"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:textSize="12sp" android:paddingStart="5dp" android:paddingEnd="5dp"/>
 </LinearLayout>

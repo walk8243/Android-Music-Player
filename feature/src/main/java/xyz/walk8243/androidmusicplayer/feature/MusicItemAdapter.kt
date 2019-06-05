@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import org.w3c.dom.Text
 import java.util.logging.Logger
 
 class MusicItemAdapter(private val musicData: ArrayList<HashMap<String, String>>) : RecyclerView.Adapter<MusicItemAdapter.MusicItemViewHolder>() {
@@ -15,20 +16,22 @@ class MusicItemAdapter(private val musicData: ArrayList<HashMap<String, String>>
 
     class MusicItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val layout: LinearLayout = view.findViewById(R.id.music_item)
-        val textView: TextView = view.findViewById(R.id.music_title)
+        val musicName: TextView = view.findViewById(R.id.music_title)
+        val musicDir: TextView = view.findViewById(R.id.music_dir)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicItemAdapter.MusicItemViewHolder {
-        log.info("viewType is $viewType")
         val view = LayoutInflater.from(parent.context).inflate(R.layout.music_item, parent, false)
         return MusicItemViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MusicItemViewHolder, position: Int) {
-        log.info("$position is ~${musicData[position]}~ ${musicData.size}")
-        holder.textView.text = musicData[position]["name"]
-        holder.textView.isClickable = true
-        holder.textView.setOnClickListener {
+        holder.musicName.text = musicData[position]["name"]
+        holder.musicDir.text = if (!musicData[position]["dir"].isNullOrEmpty()) {
+            musicData[position]["dir"]!!.substring(1).replace("/", " > ")
+        } else ""
+        holder.layout.isClickable = true
+        holder.layout.setOnClickListener {
             if (holder == selectedHolder) {
                 return@setOnClickListener
             }
