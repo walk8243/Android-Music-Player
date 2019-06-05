@@ -67,10 +67,8 @@ class MainActivity : AppCompatActivity() {
         log.fine("initializeUI")
         val files = MusicFiles(null).getFilesRecursively(null)
         val dirPathStrLength = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).absolutePath.length
-        log.info("Length of ${Environment.DIRECTORY_MUSIC} is $dirPathStrLength")
         if (files.size > 0) {
             for (file in files) {
-                log.info("${file.name}: ${file.absolutePath}")
                 if (musicExtensions.contains(file.extension)) {
                     val fileInfo = hashMapOf("name" to file.nameWithoutExtension, "dir" to file.parent.substring(dirPathStrLength), "path" to file.absolutePath)
                     musicItemData.add(fileInfo)
