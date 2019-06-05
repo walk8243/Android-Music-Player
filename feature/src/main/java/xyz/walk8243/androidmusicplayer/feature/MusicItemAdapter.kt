@@ -4,18 +4,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import java.util.logging.Logger
 
 class MusicItemAdapter(private val musicData: ArrayList<HashMap<String, String>>) : RecyclerView.Adapter<MusicItemAdapter.MusicItemViewHolder>() {
     private val log = Logger.getLogger(this::class.java.name)
     private var musicPlayer: AudioPlayer? = null
+    private var selectedHolder: MusicItemViewHolder? = null
 
     class MusicItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        var textView: TextView
-        init {
-            textView = view.findViewById(R.id.music_title)
-        }
+        val layout: LinearLayout = view.findViewById(R.id.music_item)
+        val textView: TextView = view.findViewById(R.id.music_title)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicItemAdapter.MusicItemViewHolder {
@@ -29,7 +29,15 @@ class MusicItemAdapter(private val musicData: ArrayList<HashMap<String, String>>
         holder.textView.text = musicData[position]["name"]
         holder.textView.isClickable = true
         holder.textView.setOnClickListener {
+            if (holder == selectedHolder) {
+                return@setOnClickListener
+            }
             musicPlayer?.create(musicData[position]["path"]!!)
+            if (selectedHolder != null) {
+                selectedHolder!!.layout.isSelected = false
+            }
+            holder.layout.isSelected = true
+            selectedHolder = holder
         }
     }
 
