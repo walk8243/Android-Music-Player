@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import java.util.logging.Logger
 
@@ -34,12 +33,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recyclerView = findViewById(R.id.audio_list)
         viewAdapter = MusicItemAdapter(musicItemData)
         viewManager = LinearLayoutManager(this)
 
-        recyclerView.layoutManager = viewManager
-        recyclerView.adapter = viewAdapter
+        recyclerView = findViewById<RecyclerView>(R.id.music_list).apply {
+            layoutManager = viewManager
+            adapter = viewAdapter
+            addItemDecoration(MusicItemDecoration())
+        }
 
         setupPermission()
         initializeAudioPlayer()
@@ -68,13 +69,14 @@ class MainActivity : AppCompatActivity() {
         val files = MusicFiles(null).getFilesRecursively(null)
         val dirPathStrLength = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).absolutePath.length
         if (files.size > 0) {
+            val positionStart = musicItemData.size
             for (file in files) {
                 if (musicExtensions.contains(file.extension)) {
                     val fileInfo = hashMapOf("name" to file.nameWithoutExtension, "dir" to file.parent.substring(dirPathStrLength), "path" to file.absolutePath)
                     musicItemData.add(fileInfo)
-                    viewAdapter.notifyItemChanged(musicItemData.lastIndex)
                 }
             }
+            viewAdapter.notifyItemRangeChanged(positionStart, musicItemData.size - positionStart)
         } else {
             val mTextView = findViewById<TextView>(R.id.textView)
             mTextView.text = "ファイルがありません"
