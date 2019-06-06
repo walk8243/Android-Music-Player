@@ -8,7 +8,7 @@ import java.util.logging.Logger
 
 class MusicItemDecoration : RecyclerView.ItemDecoration() {
     private val log = Logger.getLogger(this::class.java.name)
-    private var lineStyle: Paint? = null
+    private var lineStyle = Paint()
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         if (parent.adapter == null) return
@@ -17,8 +17,8 @@ class MusicItemDecoration : RecyclerView.ItemDecoration() {
         val right = parent.width - parent.paddingRight
 
         if (itemCount == 0) return
-        for (i in 1 .. (itemCount-1)) {
-            val child = parent.getChildAt(i-1)
+        for (i in 1..(itemCount - 1)) {
+            val child = parent.getChildAt(i - 1)
             val bottom = child.bottom
 
             drawHorizontalLine(c, left, bottom, right, bottom)
@@ -28,11 +28,11 @@ class MusicItemDecoration : RecyclerView.ItemDecoration() {
 
     private fun drawHorizontalLine(c: Canvas, x1: Int, y1: Int, x2: Int, y2: Int) {
         configLineStyle()
-        c.drawLine(x1.toFloat(), y1.toFloat(), x2.toFloat(), y2.toFloat(), lineStyle!!)
+        c.drawLine(x1.toFloat(), y1.toFloat(), x2.toFloat(), y2.toFloat(), lineStyle)
     }
 
     private fun configLineStyle() {
-        lineStyle = Paint().apply {
+        lineStyle.apply {
             strokeWidth = 2F
             color = Color.GRAY
         }
